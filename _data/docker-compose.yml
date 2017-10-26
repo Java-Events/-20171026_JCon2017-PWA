@@ -1,0 +1,26 @@
+version: '3.3'
+
+networks:
+  vaadin:
+#    driver: bridge
+
+services:
+
+
+#Open Hernarium
+  lighthouse:
+    container_name: vaadin-lighthouse
+    build: _lighthouse/
+    ports:
+          - 9222:9222
+          - 8080:8080
+    volumes:
+          - ./_lighthouse/home/lighthouse/report:/home/lighthouse/report
+          - ../target/helloworld-1.0.0-SNAPSHOT.jar:/home/lighthouse/report/fat.jar
+    networks:
+      - vaadin
+
+    environment:
+      - lighthouse_url=http://127.0.0.1:8080
+#    deploy:
+#          mode: global #deploy as singleton

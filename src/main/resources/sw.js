@@ -3,9 +3,9 @@ var CACHE_VERSION = 1;
 
 var filesToCache = [
     './',
-    './VAADIN/js/app.js',
-    './VAADIN/images/vaadinlogo-192x192.png',
-    './VAADIN/images/splashscreen-512x384.jpg'
+    './VAADIN/app.js',
+    './images/vaadinlogo-192x192.png',
+    './images/splashscreen-512x384.jpg'
 ];
 
 self.oninstall = function(event) {

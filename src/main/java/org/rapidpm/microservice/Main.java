@@ -1,21 +1,22 @@
 package org.rapidpm.microservice;
 
 
-import static io.undertow.Handlers.redirect;
-import static io.undertow.servlet.Servlets.servlet;
-
-import java.util.Optional;
-
-import javax.servlet.ServletException;
-
-import org.rapidpm.vaadin.helloworld.server.MyProjectServlet;
 import io.undertow.Handlers;
 import io.undertow.Undertow;
+import io.undertow.UndertowOptions;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.handlers.PathHandler;
 import io.undertow.servlet.Servlets;
 import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.DeploymentManager;
+import org.rapidpm.vaadin.helloworld.server.MyProjectServlet;
+import org.rapidpm.vaadin.helloworld.server.PWAServlet;
+
+import javax.servlet.ServletException;
+import java.util.Optional;
+
+import static io.undertow.Handlers.redirect;
+import static io.undertow.servlet.Servlets.servlet;
 
 /**
  *
@@ -46,8 +47,19 @@ public class Main {
                   .setDefaultEncoding("UTF-8")
                   .addServlets(
                       servlet(
+                          PWAServlet.class.getSimpleName(),
+                          PWAServlet.class
+                      ).addMappings("/sw.js", "/manifest.json", "/VAADIN/app.js")
+
+                       .setAsyncSupported(true)
+                       .setEnabled(true),
+                      servlet(
                           MyProjectServlet.class.getSimpleName(),
-                          MyProjectServlet.class).addMapping("/*")
+                          MyProjectServlet.class
+                      ).addMapping("/*")
+                       .setAsyncSupported(true)
+                       .setEnabled(true)
+
                   );
 
     DeploymentManager manager = Servlets
@@ -63,6 +75,7 @@ public class Main {
 
       Undertow undertowServer = Undertow.builder()
                                         .addHttpListener(8080, "0.0.0.0")
+                                        .setServerOption(UndertowOptions.ENABLE_HTTP2, true)
                                         .setHandler(path)
                                         .build();
       undertowServer.start();

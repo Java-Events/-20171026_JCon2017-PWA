@@ -2,6 +2,7 @@
   "short_name": "Java PWA",
   "name": "Vaadin PWA",
   "display": "standalone",
+  "lang":"en_US",
   "icons": [
     {
       "src": "./images/vaadinlogo-192x192.png",
@@ -14,7 +15,7 @@
       "type": "image/jpg"
     }
   ],
-  "start_url": "/",
+  "start_url": "./",
   "theme_color": "#404549",
   "background_color": "#34373b"
 }
